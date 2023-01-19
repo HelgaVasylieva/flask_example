@@ -1,12 +1,27 @@
 from faker import Faker
 import requests
 import pandas as pd
+import random
+import string
 
 
 def get_requirements():
     with open('requirements.txt') as f:
         file = f.read()
     return file
+
+
+def get_password(length: int = 10) -> str:
+    """
+    generate password
+    """
+
+    password = ''
+    chars = string.ascii_letters + string.digits + string.punctuation
+    for _ in range(length):
+        password += random.choice(chars)
+
+    return password
 
 
 def get_generate_users(length: int = 100):
@@ -27,7 +42,7 @@ def get_space():
 
 
 def get_mean():
-    df = pd.read_csv('hw (2) (1).csv')
+    df = pd.read_csv('hw.csv')
     arg_height = df[' "Height(Inches)"'].mean()
     arg_weight = df[' "Weight(Pounds)"'].mean()
     return f'Average Height is {arg_height}, Average Weight is {arg_weight}'

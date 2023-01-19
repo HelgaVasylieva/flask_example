@@ -1,5 +1,5 @@
 from flask import Flask, request
-from utils import get_requirements, get_generate_users, get_space, get_mean
+from utils import get_requirements, get_generate_users, get_space, get_mean, get_password
 
 app = Flask(__name__)
 
@@ -27,6 +27,23 @@ def generate_users():
 
     result = get_generate_users(length)
     return str(result)
+
+
+@app.route('/password/')
+def password():
+    length = request.args.get('length') or '10'
+
+    if length.isdigit():
+        length = int(length)
+        max_length = 200
+
+        if length > max_length:
+            return f'Max length should be less that {max_length}.'
+    else:
+        return f'Invalid parameter length {length}. Integer is expected.'
+
+    result = get_password(length)
+    return result
 
 
 @app.route('/space/')
